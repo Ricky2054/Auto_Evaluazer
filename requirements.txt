@@ -5,4 +5,4 @@ spacy
 transformers
 torch
 sentencepiece
-openai
+
