@@ -2,3 +2,5 @@ nltk
 scikit-learn
 textblob
 spacy
+transformers
+torch
