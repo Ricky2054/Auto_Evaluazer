@@ -9,4 +9,5 @@ pip install -r requirements.txt
 
 Step 2:
 
-python app.py
+python <filename>.py
+use the paths of testdata_1.py,testdata_2.py,testdata_3.py for testing the models.
