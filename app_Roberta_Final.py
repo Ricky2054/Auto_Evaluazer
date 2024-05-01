@@ -1,39 +1,69 @@
-from transformers import RobertaTokenizer, RobertaModel
+from transformers import RobertaTokenizer, RobertaModel, RobertaForSequenceClassification
 import torch
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+from torch.nn.utils.rnn import pad_sequence
 import matplotlib.pyplot as plt
 
 # Load pre-trained RoBERTa tokenizer and model
 tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
 model = RobertaModel.from_pretrained('roberta-base')
+sentiment_model = RobertaForSequenceClassification.from_pretrained('roberta-base', num_labels=3)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
+sentiment_model.to(device)
 model.eval()
+sentiment_model.eval()
 
 # Preprocessing
 def preprocess_roberta(text):
-    encoding = tokenizer.encode_plus(text, add_special_tokens=True, max_length=512, truncation=True, padding='max_length', return_tensors='pt')
-    input_ids = encoding['input_ids'].to(device)
-    attention_mask = encoding['attention_mask'].to(device)
-    return input_ids, attention_mask
+    tokens = tokenizer.tokenize(text)
+    tokens = tokens[:512]  # RoBERTa max input length
+    indexed_tokens = tokenizer.convert_tokens_to_ids(tokens)
+    tokens_tensor = torch.tensor([indexed_tokens]).to(device)
+    return tokens_tensor
 
 # Evaluate long answer
-def evaluate_long_answer(answer1, answer2, model, max_seq_length=512):
-    input_ids1, attention_mask1 = preprocess_roberta(answer1)
-    input_ids2, attention_mask2 = preprocess_roberta(answer2)
+def evaluate_long_answer(answer1, answer2, model, sentiment_model, max_seq_length=512):
+    tokens_tensor1 = preprocess_roberta(answer1)
+    tokens_tensor2 = preprocess_roberta(answer2)
+    max_length = max(tokens_tensor1.size(1), tokens_tensor2.size(1))
+    padding_length = max_seq_length - max_length if max_length < max_seq_length else 0
+
+    # Pad the tensors
+    tokens_tensor1_padded = torch.nn.functional.pad(tokens_tensor1, (0, padding_length), 'constant', tokenizer.pad_token_id)
+    tokens_tensor2_padded = torch.nn.functional.pad(tokens_tensor2, (0, padding_length), 'constant', tokenizer.pad_token_id)
+
+    # Create attention mask
+    attention_mask1 = torch.ones_like(tokens_tensor1)
+    attention_mask2 = torch.ones_like(tokens_tensor2)
+    attention_mask1_padded = torch.nn.functional.pad(attention_mask1, (0, padding_length), 'constant', 0)
+    attention_mask2_padded = torch.nn.functional.pad(attention_mask2, (0, padding_length), 'constant', 0)
 
     with torch.no_grad():
-        output1 = model(input_ids1, attention_mask=attention_mask1)
+        output1 = model(tokens_tensor1_padded, attention_mask=attention_mask1_padded, token_type_ids=None)
         last_hidden_states1 = output1.last_hidden_state
-        output2 = model(input_ids2, attention_mask=attention_mask2)
+        output2 = model(tokens_tensor2_padded, attention_mask=attention_mask2_padded, token_type_ids=None)
         last_hidden_states2 = output2.last_hidden_state
 
-    embedding1 = last_hidden_states1[:, 0, :].squeeze(0).unsqueeze(0)  # Use the [CLS] token embedding
-    embedding2 = last_hidden_states2[:, 0, :].squeeze(0).unsqueeze(0)  # Use the [CLS] token embedding
+    embedding1 = last_hidden_states1[:, :max_length, :].squeeze(0)  # Remove batch dimension
+    embedding2 = last_hidden_states2[:, :max_length, :].squeeze(0)  # Remove batch dimension
     similarity = cosine_similarity(embedding1.cpu().numpy(), embedding2.cpu().numpy())[0][0]  # Extract single value
 
+    # Perform sentiment analysis
+    sentiment_inputs1 = tokenizer(answer1, return_tensors="pt").to(device)
+    sentiment_inputs2 = tokenizer(answer2, return_tensors="pt").to(device)
+    sentiment_output1 = sentiment_model(**sentiment_inputs1)[0]
+    sentiment_output2 = sentiment_model(**sentiment_inputs2)[0]
+    sentiment1 = torch.softmax(sentiment_output1, dim=1).argmax().item()
+    sentiment2 = torch.softmax(sentiment_output2, dim=1).argmax().item()
+
+    # Adjust the similarity score based on sentiment analysis
+    if sentiment1 != sentiment2:
+        similarity *= 0.8  # Reduce the similarity score by 20% if sentiments don't match
+
     return similarity
+
 # Assign marks based on evaluation score
 def assign_marks(similarity_score):
     similarity_score = float(similarity_score)
@@ -57,7 +87,7 @@ def main():
 
     for i, user_answer in enumerate(user_answers):
         if user_answer.strip():  # Check if the answer is not empty
-            similarity_score = evaluate_long_answer(sample_answer, user_answer, model)
+            similarity_score = evaluate_long_answer(sample_answer, user_answer, model, sentiment_model)
             similarity_scores.append(similarity_score)
             answer_numbers.append(i + 1)
             marks = assign_marks(similarity_score)
@@ -93,7 +123,7 @@ def main():
     ax1.set_title("Marks Distribution")
 
     # Calculate deviation from the reference answer
-    reference_similarity = evaluate_long_answer(sample_answer, sample_answer, model)
+    reference_similarity = evaluate_long_answer(sample_answer, sample_answer, model, sentiment_model)
     deviations = [reference_similarity - score for score in similarity_scores]
 
     # Plot the scatter plot

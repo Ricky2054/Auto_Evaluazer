@@ -2,47 +2,81 @@ import torch
 import torch.nn as nn
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+from torch.nn.utils.rnn import pad_sequence
 import matplotlib.pyplot as plt
-from torchtext.data.utils import get_tokenizer
-from torchtext.vocab import build_vocab_from_iterator
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# Preprocessing
-def preprocess_text(text, tokenizer, vocab, max_length):
-    tokens = tokenizer(text)[:max_length]
-    encoded = torch.tensor([vocab[token] for token in tokens], dtype=torch.long).unsqueeze(0)
-    attention_mask = (encoded != vocab['<pad>']).type(torch.LongTensor)
-    return encoded.to(device), attention_mask.to(device)
-
-# LSTM model
+# Define LSTM model
 class LSTMModel(nn.Module):
-    def __init__(self, vocab_size, embedding_dim, hidden_dim, num_layers):
+    def __init__(self, input_size, hidden_size, num_layers, output_size):
         super(LSTMModel, self).__init__()
-        self.embedding = nn.Embedding(vocab_size, embedding_dim)
-        self.lstm = nn.LSTM(embedding_dim, hidden_dim, num_layers, batch_first=True)
-        self.fc = nn.Linear(hidden_dim, embedding_dim)
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        self.embedding = nn.Embedding(input_size, hidden_size)
+        self.lstm = nn.LSTM(hidden_size, hidden_size, num_layers, batch_first=True)
+        self.fc = nn.Linear(hidden_size, output_size)
 
-    def forward(self, input_ids, attention_mask):
-        embedded = self.embedding(input_ids)
-        packed_embedded = nn.utils.rnn.pack_padded_sequence(embedded, attention_mask.sum(1).cpu(), batch_first=True, enforce_sorted=False)
-        packed_output, _ = self.lstm(packed_embedded)
-        output, _ = nn.utils.rnn.pad_packed_sequence(packed_output, batch_first=True)
-        output = self.fc(output[:, -1, :])
+    def forward(self, x):
+        embedded = self.embedding(x)
+        output, _ = self.lstm(embedded)
+        last_output = output[:, -1, :]  
+        output = self.fc(last_output)
         return output
 
+# Load pre-trained sentiment model
+sentiment_model = LSTMModel(input_size=10000, hidden_size=256, num_layers=2, output_size=3)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+sentiment_model.to(device)
+
+# Preprocessing
+def preprocess_lstm(text, vocab):
+    tokens = [vocab.get(word, vocab['<unk>']) for word in text.split()]
+    tokens = tokens[:512]  # LSTM max input length
+    tokens_tensor = torch.tensor(tokens, dtype=torch.long).to(device)
+    return tokens_tensor.unsqueeze(0)  # Add batch dimension
+
 # Evaluate long answer
-def evaluate_long_answer(answer1, answer2, model, tokenizer, vocab, max_length=512):
-    input_ids1, attention_mask1 = preprocess_text(answer1, tokenizer, vocab, max_length)
-    input_ids2, attention_mask2 = preprocess_text(answer2, tokenizer, vocab, max_length)
+def evaluate_long_answer(answer1, answer2, model, max_seq_length=512):
+    tokens_tensor1 = preprocess_lstm(answer1, vocab)
+    tokens_tensor2 = preprocess_lstm(answer2, vocab)
+    max_length = max(tokens_tensor1.size(1), tokens_tensor2.size(1))
+    padding_length = max_seq_length - max_length if max_length < max_seq_length else 0
+
+    # Pad the tensors
+    tokens_tensor1_padded = torch.nn.functional.pad(tokens_tensor1, (0, padding_length), 'constant', 0)
+    tokens_tensor2_padded = torch.nn.functional.pad(tokens_tensor2, (0, padding_length), 'constant', 0)
 
     with torch.no_grad():
-        embedding1 = model(input_ids1, attention_mask1)
-        embedding2 = model(input_ids2, attention_mask2)
+        output1 = model(tokens_tensor1_padded)
+        last_hidden_states1 = output1[:, -1]  # Extract the last hidden state
+        output2 = model(tokens_tensor2_padded)
+        last_hidden_states2 = output2[:, -1]  # Extract the last hidden state
 
-    similarity = cosine_similarity(embedding1.cpu().numpy(), embedding2.cpu().numpy())[0][0]  # Extract single value
+    embedding1 = last_hidden_states1.squeeze(0).cpu().numpy()  # Remove batch dimension and move to CPU
+    embedding2 = last_hidden_states2.squeeze(0).cpu().numpy()  # Remove batch dimension and move to CPU
+
+    # Reshape embeddings to 2D arrays if they are scalar values
+    embedding1 = np.atleast_2d(embedding1)
+    embedding2 = np.atleast_2d(embedding2)
+
+    # Calculate cosine similarity
+    similarity = cosine_similarity(embedding1, embedding2)[0][0]  # Extract single value
+
+    # Perform sentiment analysis
+    sentiment_inputs1 = preprocess_lstm(answer1, vocab)
+    sentiment_inputs2 = preprocess_lstm(answer2, vocab)
+    sentiment_output1 = sentiment_model(sentiment_inputs1)
+    sentiment_output2 = sentiment_model(sentiment_inputs2)
+    sentiment1 = torch.softmax(sentiment_output1, dim=1).argmax().item()
+    sentiment2 = torch.softmax(sentiment_output2, dim=1).argmax().item()
+
+    # Adjust the similarity score based on sentiment analysis
+    if sentiment1 != sentiment2:
+        similarity *= 0.8  # Reduce the similarity score by 20% if sentiments don't match
 
     return similarity
+
+
+
 
 # Assign marks based on evaluation score
 def assign_marks(similarity_score):
@@ -57,26 +91,8 @@ def main():
     sample_answer = input("Please enter a sample answer: ")
     file_path = input("Please enter the path to the text file containing user answers: ")
 
-    # Load tokenizer
-    tokenizer = get_tokenizer('basic_english')
-
-    # Build vocabulary
     with open(file_path, 'r') as file:
-        user_answers = [sample_answer] + file.read().split('\n\n')  # Include sample_answer in the vocabulary
-
-    def yield_tokens(answers):
-        for answer in answers:
-            yield tokenizer(answer)
-
-    vocab = build_vocab_from_iterator(yield_tokens(user_answers), specials=['<unk>', '<pad>'])
-    vocab.set_default_index(vocab['<unk>'])
-
-    # Load or create the LSTM model
-    vocab_size = len(vocab)
-    embedding_dim = 300  # Adjust as needed
-    hidden_dim = 256  # Adjust as needed
-    num_layers = 2  # Adjust as needed
-    model = LSTMModel(vocab_size, embedding_dim, hidden_dim, num_layers).to(device)
+        user_answers = file.read().split('\n\n')  # Split on double newline to separate answers
 
     num_answers = len(user_answers)
     marks_distribution = [[] for _ in range(11)]  # Initialize a list of lists to store the distribution of marks (0-10)
@@ -85,12 +101,12 @@ def main():
 
     for i, user_answer in enumerate(user_answers):
         if user_answer.strip():  # Check if the answer is not empty
-            similarity_score = evaluate_long_answer(sample_answer, user_answer, model, tokenizer, vocab)
+            similarity_score = evaluate_long_answer(sample_answer, user_answer, sentiment_model)
             similarity_scores.append(similarity_score)
-            answer_numbers.append(i)
+            answer_numbers.append(i + 1)
             marks = assign_marks(similarity_score)
-            marks_distribution[marks].append(str(i))  # Store the answer number as a string for each mark
-            print(f"Marks for user answer {i}: {marks}")
+            marks_distribution[marks].append(str(i + 1))  # Store the answer number as a string for each mark
+            print(f"Marks for user answer {i + 1}: {marks}")
 
     print("\nMarks Distribution:")
     for m, answers in enumerate(marks_distribution):
@@ -121,7 +137,7 @@ def main():
     ax1.set_title("Marks Distribution")
 
     # Calculate deviation from the reference answer
-    reference_similarity = evaluate_long_answer(sample_answer, sample_answer, model, tokenizer, vocab)
+    reference_similarity = evaluate_long_answer(sample_answer, sample_answer, sentiment_model)
     deviations = [reference_similarity - score for score in similarity_scores]
 
     # Plot the scatter plot
@@ -142,4 +158,6 @@ def main():
     plt.show()
 
 if __name__ == "__main__":
+    # Create a simple vocabulary
+    vocab = {word: idx for idx, word in enumerate(['<pad>', '<unk>'] + list('abcdefghijklmnopqrstuvwxyz '))}
     main()
