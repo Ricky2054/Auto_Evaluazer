@@ -1,25 +1,28 @@
-from transformers import AlbertTokenizer, AlbertModel
+from transformers import AlbertTokenizer, AlbertModel, AlbertForSequenceClassification
 import torch
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 import matplotlib.pyplot as plt
 
-# Load pre-trained Albert tokenizer and model
+# Load pre-trained ALBERT tokenizer and model
 tokenizer = AlbertTokenizer.from_pretrained('albert-base-v2')
 model = AlbertModel.from_pretrained('albert-base-v2')
+sentiment_model = AlbertForSequenceClassification.from_pretrained('albert-base-v2', num_labels=3)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
+sentiment_model.to(device)
 model.eval()
+sentiment_model.eval()
 
 # Preprocessing
 def preprocess_albert(text):
-    tokens = tokenizer.encode_plus(text, add_special_tokens=True, max_length=512, truncation=True, padding='max_length', return_tensors='pt')
-    input_ids = tokens['input_ids'].to(device)
-    attention_mask = tokens['attention_mask'].to(device)
+    encoded_input = tokenizer(text, return_tensors='pt', max_length=512, truncation=True, padding='max_length')
+    input_ids = encoded_input['input_ids'].to(device)
+    attention_mask = encoded_input['attention_mask'].to(device)
     return input_ids, attention_mask
 
 # Evaluate long answer
-def evaluate_long_answer(answer1, answer2, model, max_seq_length=512):
+def evaluate_long_answer(answer1, answer2, model, sentiment_model, max_seq_length=512):
     input_ids1, attention_mask1 = preprocess_albert(answer1)
     input_ids2, attention_mask2 = preprocess_albert(answer2)
 
@@ -32,6 +35,18 @@ def evaluate_long_answer(answer1, answer2, model, max_seq_length=512):
     embedding1 = last_hidden_states1[:, 0, :].squeeze(0).unsqueeze(0)  # Use the [CLS] token embedding
     embedding2 = last_hidden_states2[:, 0, :].squeeze(0).unsqueeze(0)  # Use the [CLS] token embedding
     similarity = cosine_similarity(embedding1.cpu().numpy(), embedding2.cpu().numpy())[0][0]  # Extract single value
+
+    # Perform sentiment analysis
+    sentiment_inputs1 = tokenizer(answer1, return_tensors="pt", max_length=512, truncation=True, padding='max_length').to(device)
+    sentiment_inputs2 = tokenizer(answer2, return_tensors="pt", max_length=512, truncation=True, padding='max_length').to(device)
+    sentiment_output1 = sentiment_model(**sentiment_inputs1)[0]
+    sentiment_output2 = sentiment_model(**sentiment_inputs2)[0]
+    sentiment1 = torch.softmax(sentiment_output1, dim=1).argmax().item()
+    sentiment2 = torch.softmax(sentiment_output2, dim=1).argmax().item()
+
+    # Adjust the similarity score based on sentiment analysis
+    if sentiment1 != sentiment2:
+        similarity *= 0.8  # Reduce the similarity score by 20% if sentiments don't match
 
     return similarity
 
@@ -58,7 +73,7 @@ def main():
 
     for i, user_answer in enumerate(user_answers):
         if user_answer.strip():  # Check if the answer is not empty
-            similarity_score = evaluate_long_answer(sample_answer, user_answer, model)
+            similarity_score = evaluate_long_answer(sample_answer, user_answer, model, sentiment_model)
             similarity_scores.append(similarity_score)
             answer_numbers.append(i + 1)
             marks = assign_marks(similarity_score)
@@ -94,7 +109,7 @@ def main():
     ax1.set_title("Marks Distribution")
 
     # Calculate deviation from the reference answer
-    reference_similarity = evaluate_long_answer(sample_answer, sample_answer, model)
+    reference_similarity = evaluate_long_answer(sample_answer, sample_answer, model, sentiment_model)
     deviations = [reference_similarity - score for score in similarity_scores]
 
     # Plot the scatter plot
