@@ -1,5 +1,12 @@
 # Auto_Evaluazer
 
+
+## Description
+
+Automatic Long Answer Evaluation Model- It allows users to input a question and a model answer, alongside  student responses. The model meticulously grades the provided answers by comparing them to the model answer, leveraging advanced techniques such as sentiment analysis, word embeddings, and context matching. 
+
+## Instructions for using the model:
+
 Step 1:
 Create virtual environment,activate it and install requirements
 
