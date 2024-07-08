@@ -20,6 +20,14 @@ python -m venv myenv
 myenv\Scripts\activate
 pip install -r requirements.txt
 
+Step 2:
+Make sure that your main python file is named as "app.py"
+
+Step 3:
+To run the application write the following command in the terminal
+"python app.py"
+
+then go to port "http://127.0.0.1:5000" for running the application in the localserver
 
 
 
