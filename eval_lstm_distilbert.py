@@ -1,4 +1,3 @@
-from flask import Flask, render_template, request
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -12,81 +11,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 from fuzzywuzzy import fuzz
 import numpy as np
 from transformers import DistilBertTokenizer, DistilBertModel
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
-import os
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
-import os
-import datetime
-
-app = Flask(__name__)
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 # Download necessary NLTK data
 nltk.download('punkt')
 nltk.download('stopwords')
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
-    evaluations = db.relationship('Evaluation', backref='user', lazy=True)
-
-class Evaluation(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
-    total_marks = db.Column(db.Float, nullable=False)
-    obtained_marks = db.Column(db.Float, nullable=False)
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = User.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            flash('Logged in successfully.', 'success')
-            return redirect(url_for('dashboard'))
-        flash('Invalid username or password.', 'error')
-    return render_template('login.html')
-
-@app.route('/logout')
-def logout():
-    session.pop('user_id', None)
-    flash('Logged out successfully.', 'success')
-    return redirect(url_for('login'))
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user:
-            flash('Username already exists.', 'error')
-        else:
-            new_user = User(username=username, password=generate_password_hash(password))
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Registration successful. Please login.', 'success')
-            return redirect(url_for('login'))
-    return render_template('register.html')
-
-@app.route('/dashboard')
-def dashboard():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    user = User.query.get(session['user_id'])
-    evaluations = user.evaluations
-    return render_template('dashboard.html', user=user, evaluations=evaluations)
 
 # Set up stop words
 stop_words = set(stopwords.words('english'))
@@ -130,12 +59,20 @@ def tokenize_and_pad(text, word_to_idx, max_length=512):
     return torch.tensor(sequence, dtype=torch.long)
 
 # Prepare vocabulary
-all_texts = [line.strip() for line in open('dataset.txt')] + [line.strip() for line in open('student_answer_low.txt')]
-all_tokens = [token for text in all_texts for token in preprocess_text(text).split()]
-vocab = set(all_tokens)
-word_to_idx = {word: idx for idx, word in enumerate(vocab, 1)}
-word_to_idx['<PAD>'] = 0
-word_to_idx['<UNK>'] = len(word_to_idx)
+def prepare_vocab(data_paths):
+    all_texts = []
+    for path in data_paths:
+        with open(path, 'r', encoding='utf-8') as file:
+            all_texts.extend([line.strip() for line in file.readlines()])
+    all_tokens = [token for text in all_texts for token in preprocess_text(text).split()]
+    vocab = set(all_tokens)
+    word_to_idx = {word: idx for idx, word in enumerate(vocab, 1)}
+    word_to_idx['<PAD>'] = 0
+    word_to_idx['<UNK>'] = len(word_to_idx)
+    return word_to_idx
+
+data_paths = ['dataset.txt', 'student_answer_low.txt']
+word_to_idx = prepare_vocab(data_paths)
 
 # Prepare LSTM model
 EMBEDDING_DIM = 100
@@ -158,7 +95,10 @@ def train_model(model, texts, word_to_idx, epochs=5, lr=0.001):
         print(f'Epoch {epoch + 1}/{epochs}, Loss: {loss.item()}')
 
 # Train LSTM model
-train_texts = [line.strip() for line in open('dataset.txt')] + [line.strip() for line in open('student_answer_low.txt')]
+train_texts = []
+for path in data_paths:
+    with open(path, 'r', encoding='utf-8') as file:
+        train_texts.extend([line.strip() for line in file.readlines()])
 train_model(lstm_model, train_texts, word_to_idx)
 
 def get_lstm_embedding(text, model):
@@ -221,8 +161,13 @@ def calculate_similarity(question, ref_answer, student_answer):
     
     return combined_similarity
 
-def parse_file(file):
-    content = file.read().decode('utf-8')
+def calculate_smape(y_true, y_pred):
+    return np.mean(np.abs(y_true - y_pred) / ((np.abs(y_true) + np.abs(y_pred)) / 2)) * 100
+
+def parse_file(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+    
     questions = re.split(r'Question:', content)[1:]
     parsed_data = []
     
@@ -236,53 +181,31 @@ def parse_file(file):
     
     return parsed_data
 
-# Modify the index route to require login
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    if request.method == 'POST':
-        reference_file = request.files['reference']
-        student_file = request.files['student']
-        
-        reference_data = parse_file(reference_file)
-        student_data = parse_file(student_file)
-        
-        total_marks = sum(q['marks'] for q in reference_data)
-        total_obtained = 0
-        results = []
-        
-        for ref, student in zip(reference_data, student_data):
-            similarity = calculate_similarity(ref['question'], ref['answer'], student['answer'])
-            score = round(similarity * ref['marks'], 2)
-            total_obtained += score
-            results.append({
-                'question': ref['question'],
-                'score': score,
-                'max_score': ref['marks']
-            })
-        
-        # Save evaluation to database
-        user = User.query.get(session['user_id'])
-        new_evaluation = Evaluation(user=user, total_marks=total_marks, obtained_marks=round(total_obtained, 2))
-        db.session.add(new_evaluation)
-        db.session.commit()
+# Example usage
+reference_file_path = 'dataset.txt'
+student_file_path = 'student_answer_low 2.txt'
 
-        chart_data = {
-            'labels': [f"Q{i+1}" for i in range(len(results))],
-            'obtained': [result['score'] for result in results],
-            'maximum': [result['max_score'] for result in results]
-        }
+reference_data = parse_file(reference_file_path)
+student_data = parse_file(student_file_path)
 
-        return render_template('result.html', 
-                               total_marks=total_marks, 
-                               total_obtained=round(total_obtained, 2),
-                               results=results,
-                               chart_data=chart_data)
-    
-    return render_template('index.html')
+results = []
+for ref, student in zip(reference_data, student_data):
+    similarity = calculate_similarity(ref['question'], ref['answer'], student['answer'])
+    score = round(similarity * ref['marks'], 2)
+    results.append({
+        'question': ref['question'],
+        'score': score,
+        'max_score': ref['marks']
+    })
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+# Calculate metrics
+mse = mean_squared_error([result['max_score'] for result in results], [result['score'] for result in results])
+rmse = np.sqrt(mse)
+mae = mean_absolute_error([result['max_score'] for result in results], [result['score'] for result in results])
+smape = calculate_smape(np.array([result['max_score'] for result in results]), np.array([result['score'] for result in results]))
+
+# Print metrics
+print(f"MSE: {mse}")
+print(f"RMSE: {rmse}")
+print(f"MAE: {mae}")
+print(f"sMAPE: {smape}")

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">Welcome, {{ user.username }}!</h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <h2 class="title is-4">Your Evaluations</h2>
+            <p>Total evaluations: {{ evaluations|length }}</p>
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Total Marks</th>
+                        <th>Obtained Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for evaluation in evaluations %}
+                    <tr>
+                        <td>{{ evaluation.date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <td>{{ evaluation.total_marks }}</td>
+                        <td>{{ evaluation.obtained_marks }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ url_for('index') }}" class="button is-primary">New Evaluation</a>
+            <a href="{{ url_for('logout') }}" class="button is-light">Logout</a>
+        </div>
+    </section>
+</body>
+</html>

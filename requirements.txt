@@ -1,9 +1,9 @@
+Flask
+torch
 nltk
 scikit-learn
-textblob
-spacy
+fuzzywuzzy
+numpy
 transformers
-torch
-sentencepiece
-matplotlib
-torchtext
+Flask-SQLAlchemy
+Werkzeug

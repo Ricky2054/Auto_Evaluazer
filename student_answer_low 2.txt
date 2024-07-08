@@ -1,0 +1,311 @@
+Question: What is artificial intelligence?
+Answer: Uhh, it's like when computers do things that need smart thinking, like humans. They can learn stuff and solve problems.
+
+Question: Who coined the term "Artificial Intelligence"?
+Answer: Uhm, I think it was someone named John at a conference in 1950-something.
+
+Question: What are the main types of AI?
+Answer: There’s like, weak AI, strong AI, and super smart AI that’s better than humans.
+
+Question: Explain the Turing Test.
+Answer: It’s a test by Alan Turing to see if a machine can talk like a human so a person can’t tell if it’s a machine.
+
+Question: What is machine learning?
+Answer: Machine learning is when computers learn by themselves from data without being told exactly what to do.
+
+Question: Describe the three main types of machine learning.
+Answer: There’s supervised learning where it learns from examples, unsupervised where it finds patterns, and reinforcement where it learns from doing stuff.
+
+Question: What is deep learning?
+Answer: Deep learning uses lots of layers in a network to understand things like pictures and speech better.
+
+Question: Explain the concept of neural networks.
+Answer: Neural networks are like brains with nodes connected in layers that send signals to each other.
+
+Question: What is natural language processing (NLP)?
+Answer: It’s about computers understanding and working with human language.
+
+Question: What are some applications of AI in everyday life?
+Answer: AI is in things like Siri, Netflix recommendations, facial recognition, spam filters, self-driving cars, and smart homes.
+
+Question: What is the difference between strong AI and weak AI?
+Answer: Weak AI does one thing well, like facial recognition. Strong AI can do anything a human can do.
+
+Question: Explain the concept of fuzzy logic in AI.
+Answer: Fuzzy logic is where things aren’t just true or false but can be sort of true, useful for dealing with uncertain stuff.
+
+Question: What is the role of heuristics in AI?
+Answer: Heuristics are shortcuts for solving problems quickly, not always perfect but good enough for now.
+
+Question: Describe the concept of a genetic algorithm.
+Answer: Genetic algorithms are like evolution where the best solutions breed to make better solutions.
+
+Question: What is computer vision?
+Answer: Computer vision is teaching computers to see and understand images.
+
+Question: Explain the concept of a decision tree in machine learning.
+Answer: A decision tree is like a flowchart that helps decide what to do based on questions and answers.
+
+Question: What is the Moravec's paradox?
+Answer: Moravec's paradox states that high-level reasoning requires very little computation, while low-level sensorimotor skills require enormous computational resources. In other words, it's easier for AI to mimic complex human thinking than basic human perception and mobility.
+
+Question: Describe the concept of a neural network's activation function.
+Answer: An activation function decides if a neuron should be active or not, helping the network learn complex patterns.
+
+Question: What is transfer learning in the context of machine learning?
+Answer: Transfer learning is using a model trained for one task to help with a new, different task.
+
+Question: Explain the concept of overfitting in machine learning.
+Answer: Overfitting is when a model is too good at training data but bad at new data.
+
+Question: What is the Turing Test?
+Answer: The Turing Test checks if a machine can talk like a human so well that a person can’t tell it’s a machine.
+
+Question: Explain the concept of a support vector machine (SVM).
+Answer: A support vector machine is a way to classify data by finding the best line or plane that separates the classes.
+
+Question: What is reinforcement learning?
+Answer: Reinforcement learning is when an AI learns by trying things and getting rewards or penalties
+
+Question: Describe the concept of backpropagation in neural networks.
+Answer: Backpropagation is a way to train neural networks by adjusting weights backwards from the output layer.
+
+Question: What is the difference between supervised and unsupervised learning?
+Answer: Supervised learning uses labeled data to learn, unsupervised learning finds patterns in unlabeled data.
+
+Question: Explain the concept of a Generative Adversarial Network (GAN).
+Answer: A GAN has two networks, one makes fake data, the other tries to spot the fakes, they both get better together.
+
+Question: What is the AI winter?
+Answer: AI winter is when people lost interest in AI and stopped funding it.
+
+Question: Describe the concept of a Markov Decision Process (MDP).
+Answer: A Markov Decision Process models decision-making with random and controlled parts, used in reinforcement learning.
+
+Question: What is the difference between a recurrent neural network (RNN) and a convolutional neural network (CNN)?
+Answer: RNNs work with sequences, CNNs work with images.
+
+Question: Explain the concept of feature extraction in machine learning.
+Answer: Feature extraction reduces the number of features while keeping the important info.
+
+Question: What is Turing completeness in the context of AI?
+Answer: Turing completeness means a system can do any computation like a Turing machine.
+
+Question: Describe the concept of ensemble learning.
+Answer: Ensemble learning combines multiple models to get better results.
+
+Question: What is the difference between AI, machine learning, and deep learning?
+Answer: AI is smart machines, machine learning is machines learning from data, deep learning uses big networks.
+
+Question: Explain the concept of a confusion matrix in machine learning.
+Answer: A confusion matrix shows how well a classification model is doing by comparing predicted and actual values.
+
+Question: What is the AI effect?
+Answer: The AI effect is when AI becomes common and people stop calling it AI.
+
+Question: Describe the concept of adversarial attacks in AI.
+Answer: Adversarial attacks are attempts to fool models by supplying deceptive input. For example, in image classification, an adversarial attack might involve adding carefully constructed noise to an image to cause a model to misclassify it, even though the change is imperceptible to humans.
+
+Question: What is the difference between a rule-based system and a machine learning system?
+Answer: Rule-based systems follow human-made rules, machine learning systems learn from data.
+
+Question: Explain the concept of a Boltzmann machine.
+Answer: A Boltzmann machine is a type of network that can learn and solve optimization problems.
+
+Question: What is the Chinese room argument in AI?
+Answer: The Chinese room argument says a computer can’t really understand, even if it seems like it does.
+
+Question: Describe the concept of AI ethics.
+Answer: AI ethics is about making sure AI is fair and safe.
+
+Question: What is the difference between symbolic AI and subsymbolic AI?
+Answer: Symbolic AI uses words and logic to solve problems, while subsymbolic AI uses numbers and patterns.
+
+Question: Explain the concept of transfer learning in deep learning.
+Answer: Transfer learning means using a model for a new task after it was used for another similar task. It saves time and data.
+
+Question: What is the AI alignment problem?
+Answer: It’s about making sure AI does what people want it to do, not something else.
+
+Question: Describe the concept of a neural architecture search (NAS).
+Answer: It’s about making better neural networks using computers to find the best design.
+
+Question: What is explainable AI (XAI)?
+Answer: Explainable AI refers to methods and techniques in the application of AI such that the results of the solution can be understood by humans. It contrasts with the concept of the "black box" in machine learning where even the designers cannot explain why the AI arrived at a specific decision.
+
+Question: Explain the concept of federated learning.
+Answer: It’s when many computers learn together without sharing data, to keep it private and safe.
+
+Question: What is the difference between a parametric and non-parametric model in machine learning?
+Answer: Parametric models use fixed numbers, while non-parametric models change with more data. Non-parametric models can be better with lots of data.
+
+Question: Describe the concept of a Gaussian process in machine learning.
+Answer: It’s a way to guess what data could be, using past guesses to make new ones.
+
+Question: What is the difference between inductive and deductive reasoning in AI?
+Answer: Inductive reasoning in AI involves drawing general conclusions from specific observations, useful in machine learning. Deductive reasoning involves drawing specific conclusions based on general rules, often used in rule-based AI systems and logic programming.
+
+Question: Explain the concept of meta-learning in AI.
+Answer: Meta-learning is about learning how to learn better over time, getting smarter with practice.
+
+Question: What is the concept of attention in deep learning?
+Answer: Attention helps AI focus on important parts of data, like highlighting key words in a sentence.
+
+Question: Describe the concept of a Long Short-Term Memory (LSTM) network.
+Answer: LSTM networks are like smart brains that remember long stuff really well, especially for things that happen in order, like videos or stories.
+
+Question: What is the difference between a type I and type II error in machine learning?
+Answer: Type I error is when the machine says something is true when it's not, and type II error is when it says something is not true when it actually is. Type I errors are the worst ones.
+
+Question: Explain the concept of a gradient in machine learning.
+Answer: A gradient tells the machine how much to change its guesses to get better at the job. It's like a map for finding the right answers.
+
+Question: What is the concept of overfitting in machine learning?
+Answer: Overfitting happens when the machine learns too much from the practice questions and can't answer new ones correctly. It's like studying only for a test you already know.
+
+Question: Describe the concept of a decision tree in machine learning.
+Answer: A decision tree is like a game where you ask yes or no questions to find out what something is. It helps the machine guess what the right answer is.
+
+Question: What is the difference between a generative and discriminative model in machine learning?
+Answer: A generative model makes up new things, like pictures, while a discriminative model decides if something is this or that, like saying if a picture is a cat or a dog.
+
+Question: Explain the concept of a kernel in machine learning.
+Answer: A kernel is like a magic trick that makes the machine understand things that are not easy to see. It helps find patterns in stuff like pictures or sounds.
+
+Question: What is the concept of a bias-variance tradeoff in machine learning?
+Answer: Bias-variance tradeoff is about making sure the machine is not too simple or too confused. It's like finding a balance so it can learn without making too many mistakes.
+
+Question: Describe the concept of a random forest in machine learning.
+Answer: A random forest is like a big group of trees that work together to solve problems. It's good at figuring out if something is true or false based on lots of information.
+
+Question: What is the difference between a supervised and unsupervised learning algorithm?
+Answer: In supervised learning, the computer learns by watching someone show it how to do stuff, like when your teacher teaches you math with examples. Unsupervised learning is like when you try to learn something on your own without any help or hints, like trying to solve a puzzle with no picture.
+
+Question: Explain the concept of a neural network's activation function.
+Answer: Activation functions are like magic spells that make the computer think better. They're like different types of wands that change how the computer sees things, like turning a cat into a dog or making a picture move.
+
+Question: What is the concept of batch normalization in deep learning?
+Answer: Batch normalization is like putting your data into a special blender to mix it up really fast before giving it to the computer. It makes the computer happy because the data is all mixed up and ready to learn faster.
+
+Question: Describe the concept of a recurrent neural network (RNN) in deep learning.
+Answer: An RNN is like a computer that tries to remember what happened in a story by thinking really hard. It's like a detective that keeps asking questions to figure out who did what in a mystery.
+
+Question: What is the difference between a convolutional neural network (CNN) and a recurrent neural network (RNN)?
+Answer: A CNN is like a superhero that can see through walls and find hidden things. An RNN is like a time traveler that goes back in time to change things and see what happens differently.
+
+Question: What is the difference between supervised and reinforcement learning?
+Answer: Supervised learning is when the computer learns by watching someone do things right, like a student learning from a teacher. Reinforcement learning is like when the computer plays a game and gets points for doing good things, like winning a race against other players.
+
+Question: Explain the concept of dropout in neural networks.
+Answer: Dropout is when the computer gets tired and forgets some things it learned before. It's like taking a nap to refresh its memory so it can learn new things later.
+
+Question: What is the role of a loss function in machine learning?
+Answer: A loss function is like a judge that decides if the computer's answers are right or wrong. It's like giving grades to the computer to see if it did its homework correctly.
+
+Question: Describe the concept of reinforcement learning in AI.
+Answer: Reinforcement learning is like teaching a dog new tricks by giving it treats when it does something good. The dog learns to do more tricks to get more treats.
+
+Question: What is a convolutional neural network (CNN)?
+Answer: A CNN is like a chef that cooks food by mixing ingredients in a special way. It's like making a recipe for a cake but using pictures instead of food.
+
+Question: Explain the concept of a perceptron in machine learning.
+Answer: A perceptron is like a simple robot brain that takes numbers, adds them up with weights, and decides if the answer is yes or no. It's like a calculator that sometimes gets things right.
+
+Question: What is the difference between batch and stochastic gradient descent?
+Answer: Batch gradient descent is like making big jumps while looking for the best way down a mountain. Stochastic gradient descent is like taking tiny steps and hoping to find the right path without seeing the whole mountain at once. Mini-batch is like trying to climb using medium-sized steps.
+
+Question: Describe the concept of an autoencoder in deep learning.
+Answer: An autoencoder is like a puzzle solver that takes a picture and tries to break it down into smaller pieces. It's like trying to draw a picture from memory after looking at it for a few seconds.
+
+Question: What is the importance of feature scaling in machine learning?
+Answer: Feature scaling is like making sure all the ingredients for a recipe are measured in the same way. It helps the computer cook the right dish without messing up the flavors.
+
+Question: Explain the concept of a softmax function.
+Answer: The softmax function is like a magic spell that turns numbers into percentages. It's like splitting a pizza so everyone gets a fair slice, no matter how big the pizza is.
+
+Question: What is the concept of data augmentation in machine learning?
+Answer: Data augmentation is like copying your homework and changing a few words to make it look different. It's like trying to make the teacher think you did more work than you actually did.
+
+Question: Describe the concept of a recurrent neural network's hidden state.
+Answer: The hidden state in an RNN is like a secret diary where the computer writes down important things to remember. It's like a treasure map that shows where all the clues are hidden.
+
+Question: What is the purpose of a learning rate in optimization algorithms?
+Answer: The learning rate is like how fast you drive a car on a road trip. If you go too fast, you might miss the turns, but if you go too slow, you'll never reach your destination on time.
+
+Question: Explain the concept of transfer learning in deep learning.
+Answer: Transfer learning is like using your older sibling's notes to study for a test. You can learn faster because they already figured out most of the answers.
+
+Question: What is the role of a hyperparameter in machine learning?
+Answer: A hyperparameter is like a magic number that the computer uses to guess how to solve a problem. It's like picking the right key to unlock a treasure chest full of answers.
+
+Question: Describe the concept of an embedding in deep learning.
+Answer: An embedding is like a secret code that changes words into numbers. It's like turning letters into numbers so the computer can read them like a detective looking for clues.
+
+Question: What is a hyperparameter in machine learning?
+Answer: A hyperparameter is like a rulebook that tells the computer how to play a game. It's like setting the rules before starting to make sure everyone knows how to win.
+
+Question: Explain the concept of gradient clipping.
+Answer: Gradient clipping is like putting a leash on a dog to keep it from running too fast. It's like making sure the computer doesn't get too excited and make big mistakes.
+
+Question: What is the difference between precision and recall in the context of a classification model?
+Answer: Precision is like throwing a dart at a target and hitting the bullseye. Recall is like trying to find all the lost socks in a big pile of laundry without missing any.
+
+Question: Describe the concept of a dropout rate in neural networks.
+Answer: The dropout rate is like having friends that sometimes don't show up to play. It's like having backup plans in case some of your teammates get tired and need a break.
+
+Question: What is the purpose of an optimizer in machine learning?
+Answer: An optimizer is like a coach that tells the computer how to train and get better at a sport. It's like having a personal trainer that helps you improve your skills and win games.
+
+Question: Explain the concept of cross-validation in machine learning.
+Answer: Cross-validation is like taking a test multiple times to see if you really understand the material. It's like practicing a dance routine over and over to make sure you get all the steps right.
+
+Question: What is the difference between underfitting and overfitting in machine learning?
+Answer: Underfitting is like trying to fill a swimming pool with a teaspoon. Overfitting is like trying to fit an elephant into a small car. Both are tricky and can lead to big messes!
+
+Question: Describe the concept of a learning curve in machine learning.
+Answer: A learning curve is like a roller coaster ride where the computer goes up and down while trying to learn new tricks. It's like practicing a magic trick and seeing how many times it takes to get it right.
+
+Question: What is the purpose of early stopping in training neural networks?
+Answer: Early stopping is like pressing the pause button on a video game when you're winning. It's like taking a break to celebrate before trying to beat the next level.
+
+Question: What is the purpose of early stopping in training neural networks?
+Answer: Early stopping is a regularization technique used during the training of neural networks to prevent overfitting. It works by monitoring the performance of the model on a validation set. As training progresses, if the performance on the validation set starts to degrade (i.e., validation error increases), early stopping stops the training process early to prevent the model from learning noise from the training data that may not generalize well to new, unseen data. By halting training at the right moment, early stopping ensures that the model generalizes well and improves its ability to make accurate predictions on new data.
+
+Question: Explain the concept of one-hot encoding.
+Answer: One-hot encoding changes categories into numbers for computers to understand better. Each category gets a number with 0s and a 1 to show if it’s there or not.
+
+Question: What is the purpose of a validation set in machine learning?
+Answer: The validation set is used to check how well the model does without training on it. It helps to choose the best settings for the model.
+
+Question: Describe the concept of ensemble learning.
+Answer: Ensemble learning uses many models together to make better guesses than just one model. It’s like teamwork for models.
+
+Question: What is the role of a cost function in machine learning?
+Answer: A cost function tells how much the model’s guess is different from what it should be. It helps to make the model learn better.
+
+Question: Explain the concept of a learning rate in optimization algorithms.
+Answer: Learning rate is how big or small steps the model takes to learn. A good learning rate makes learning fast but not too fast to make mistakes.
+
+Question: What is the difference between a linear and non-linear activation function in neural networks?
+Answer: Linear makes simple guesses while non-linear makes more complex guesses with patterns. Non-linear is better for hard problems.
+
+Question: Describe the concept of a support vector machine (SVM) in machine learning.
+Answer: A Support Vector Machine (SVM) is a powerful supervised learning algorithm used for both classification and regression tasks. It works by finding the optimal hyperplane that best separates the data into different classes in a high-dimensional space. The hyperplane is chosen to maximize the margin, or distance, between the closest data points of different classes, ensuring robust generalization to unseen data. SVMs are effective in handling high-dimensional data and are particularly well-suited for problems where the data is not linearly separable. They can also be extended using kernel methods to handle non-linear decision boundaries by implicitly mapping the input data into a higher-dimensional feature space. SVMs have been widely used in various applications, including image classification, text categorization, and bioinformatics.
+
+Question: What is the purpose of a bias term in a neural network?
+Answer: Bias helps the model to learn better from data. It makes sure the model can learn things even if the data is not at the start point.
+
+Question: Explain the concept of a hyperparameter grid search.
+Answer: Grid search tries many ways to set numbers in the model to see which way is best. It finds the best settings for the model.
+
+Question: What is the difference between a shallow and deep neural network?
+Answer: Shallow has a few layers, and deep has many layers. Deep can learn more from data, but it needs more work to teach it.
+
+
+
+
+
+
+
+
+

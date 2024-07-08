@@ -1,0 +1,19 @@
+Question: What is the difference between a recurrent neural network (RNN) and a convolutional neural network (CNN)?
+Answer: RNNs are designed to work with sequence data and can use their internal state (memory) to process sequences of inputs. CNNs, on the other hand, are primarily used for processing grid-like data such as images, using convolutional layers to detect local features.
+Marks: 3
+
+Question: What is the role of heuristics in AI?
+Answer: Heuristics in AI are problem-solving techniques that use practical methods or various shortcuts to produce solutions that may not be optimal but are sufficient for immediate goals. They're often used when an exhaustive search is impractical, helping to reduce the search space and find approximate solutions quickly.
+Marks: 2
+
+Question: Describe the concept of reinforcement learning in AI.
+Answer: Reinforcement learning involves training an agent to make decisions by taking actions in an environment to maximize a cumulative reward. It uses trial and error to learn optimal policies.
+Marks: 3
+
+Question: What is the Moravec's paradox?
+Answer: Moravec's paradox states that high-level reasoning requires very little computation, while low-level sensorimotor skills require enormous computational resources. In other words, it's easier for AI to mimic complex human thinking than basic human perception and mobility.
+Marks: 2
+
+Question: What is the concept of attention in deep learning? 
+Answer: Attention is a mechanism that allows a model to focus on specific parts of the input data when processing it, rather than considering the entire input equally. It's often used in natural language processing and computer vision tasks. 
+Marks: 2

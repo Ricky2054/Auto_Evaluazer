@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Evaluation</title>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+        }
+        .hero.is-primary {
+            background-color: #4a90e2;
+            color: #ffffff;
+            padding: 3rem 0;
+        }
+        .hero.is-primary .title {
+            font-size: 3rem;
+        }
+        .file-label, .file-cta, .file-name {
+            color: #363636;
+        }
+        .button.is-primary {
+            background-color: #4a90e2;
+            border-color: #4a90e2;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .button.is-primary:hover {
+            background-color: #3881c7;
+            border-color: #3881c7;
+        }
+        .button.is-green {
+            background-color: #48c774;
+            border-color: #48c774;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .button.is-green:hover {
+            background-color: #3ab556;
+            border-color: #3ab556;
+        }
+        .footer {
+            background-color: #363636;
+            color: #ffffff;
+            padding: 1rem 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var fileInputs = document.querySelectorAll('.file-input');
+            fileInputs.forEach(function (fileInput) {
+                fileInput.addEventListener('change', function () {
+                    if (fileInput.files.length > 0) {
+                        var fileNameSpan = fileInput.closest('.file').querySelector('.file-name');
+                        fileNameSpan.textContent = fileInput.files[0].name;
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="navbar-end">
+        <div class="navbar-item">
+            <div class="buttons">
+                <a class="button is-primary" href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+                <a class="button is-light" href="{{ url_for('logout') }}">
+                    Log out
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="navbar-end">
+        <div class="navbar-item">
+            <div class="buttons">
+                <a class="button is-light" href="{{ url_for('logout') }}">
+                    Log out
+                </a>
+            </div>
+        </div>
+    </div>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title">Upload Files for Evaluation</h1>
+                <div class="columns is-centered">
+                    <div class="column is-two-thirds">
+                        <form method="POST" enctype="multipart/form-data">
+                            <div class="field">
+                                <label class="label">Reference File:</label>
+                                <div class="file has-name is-boxed">
+                                    <label class="file-label">
+                                        <input class="file-input" type="file" name="reference" required>
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Choose file…
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            No file chosen
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Student File:</label>
+                                <div class="file has-name is-boxed">
+                                    <label class="file-label">
+                                        <input class="file-input" type="file" name="student" required>
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Choose file…
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            No file chosen
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button type="submit" class="button is-green is-fullwidth">Evaluate</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Answer Evaluation</strong> by Ricky Dey and Sorbojit Mondal  &copy; 2024. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
