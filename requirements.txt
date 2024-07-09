@@ -8,3 +8,4 @@ transformers
 Flask-SQLAlchemy
 Werkzeug
 Gunicorn
+python-Levenshtein
