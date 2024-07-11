@@ -3,7 +3,7 @@
 
 ## Description
 
-Automatic Long Answer Evaluation Model- It allows users to input a question and a model answer, alongside  student responses. The model meticulously grades the provided answers by comparing them to the model answer, leveraging advanced techniques such as sentiment analysis, word embeddings, and context matching. 
+Automatic Long Answer Evaluation Model- It allows Answer Evaluators to input a text document containing  Reference Answer paper, alongside  student response for that question. The model meticulously grades the provided answers by comparing them to the model answer, leveraging advanced techniques such as sentiment analysis, word embeddings, and context matching. 
 
 ## System Architechture
 
