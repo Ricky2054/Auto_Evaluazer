@@ -8,3 +8,4 @@ transformers
 Flask-SQLAlchemy
 Werkzeug
 python-Levenshtein
+flask_migrate
