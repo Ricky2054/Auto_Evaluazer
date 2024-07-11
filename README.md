@@ -16,9 +16,9 @@ Automatic Long Answer Evaluation Model- It allows users to input a question and 
 Step 1:
 Create virtual environment,activate it and install requirements
 
-python -m venv myenv
-myenv\Scripts\activate
-pip install -r requirements.txt
+1.python -m venv myenv\n
+2.myenv\Scripts\activate\n
+3.pip install -r requirements.txt
 
 Step 2:
 Make sure that your main python file is named as "app.py"
