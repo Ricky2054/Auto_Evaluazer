@@ -14,7 +14,7 @@ Automatic Long Answer Evaluation Model- It allows users to input a question and 
 ## Instructions for using the model:
 
 Step 1:
-Create virtual environment,activate it and install requirements
+Create virtual environment,activate it and install requirements, by executing the following commands in the terminal:
 
 python -m venv myenv
 
