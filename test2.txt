@@ -1,0 +1,192 @@
+Question: What is a graph in graph theory?
+Answer: A graph is a collection of nodes (or vertices) and edges (or arcs) that connect pairs of nodes. The edges may be directed or undirected.
+Marks: 2
+
+Question: Define a complete graph.
+Answer: A complete graph is a graph in which there is an edge between every pair of vertices.
+Marks: 2
+
+Question: What is the degree of a vertex in a graph?
+Answer: The degree of a vertex is the number of edges incident to the vertex. In a directed graph, it has both in-degree (number of incoming edges) and out-degree (number of outgoing edges).
+Marks: 3
+
+Question: What is a cycle in a graph?
+Answer: A cycle in a graph is a path that starts and ends at the same vertex, with no other vertices repeated.
+Marks: 2
+
+Question: Explain the difference between a path and a trail in a graph.
+Answer: A path in a graph is a sequence of edges where no vertices are repeated, except possibly the first and last. A trail is a sequence of edges where no edges are repeated, but vertices can be repeated.
+Marks: 3
+
+Question: What is an Eulerian circuit?
+Answer: An Eulerian circuit is a circuit that uses every edge of a graph exactly once and returns to the starting vertex.
+Marks: 2
+
+Question: State Euler's formula for planar graphs.
+Answer: Euler's formula for planar graphs is V - E + F = 2, where V is the number of vertices, E is the number of edges, and F is the number of faces.
+Marks: 3
+
+Question: What is a bipartite graph?
+Answer: A bipartite graph is a graph whose vertices can be divided into two disjoint sets such that no two vertices within the same set are adjacent.
+Marks: 2
+
+Question: Define a tree in graph theory.
+Answer: A tree is a connected graph with no cycles. It has N vertices and N-1 edges.
+Marks: 2
+
+Question: What is a spanning tree of a graph?
+Answer: A spanning tree of a graph is a subgraph that includes all the vertices of the original graph and is a tree.
+Marks: 2
+
+Question: Explain what a minimum spanning tree (MST) is.
+Answer: A minimum spanning tree (MST) is a spanning tree of a graph that has the smallest possible total edge weight compared to all other spanning trees of the same graph.
+Marks: 3
+
+Question: Describe Dijkstra's algorithm.
+Answer: Dijkstra's algorithm is used to find the shortest path from a single source vertex to all other vertices in a graph with non-negative edge weights.
+Marks: 4
+
+Question: What is the difference between a directed and an undirected graph?
+Answer: In a directed graph, the edges have a direction, meaning they go from one vertex to another specific vertex. In an undirected graph, the edges have no direction, and they simply connect two vertices.
+Marks: 2
+
+Question: What is the adjacency matrix of a graph?
+Answer: The adjacency matrix is a square matrix used to represent a graph. The element at row i and column j is 1 if there is an edge from vertex i to vertex j, and 0 otherwise.
+Marks: 3
+
+Question: Define a cut vertex in a graph.
+Answer: A cut vertex (or articulation point) is a vertex whose removal increases the number of connected components of the graph.
+Marks: 2
+
+Question: Explain the concept of graph isomorphism.
+Answer: Graph isomorphism is the condition where two graphs can be transformed into each other by renaming their vertices, meaning they have the same structure.
+Marks: 4
+
+Question: What is the chromatic number of a graph?
+Answer: The chromatic number of a graph is the minimum number of colors needed to color the vertices so that no two adjacent vertices have the same color.
+Marks: 3
+
+Question: Describe what a weighted graph is.
+Answer: A weighted graph is a graph in which each edge has an associated numerical value, or weight, which typically represents costs, lengths, or capacities.
+Marks: 2
+
+Question: What is a Hamiltonian cycle?
+Answer: A Hamiltonian cycle is a cycle that visits every vertex of a graph exactly once and returns to the starting vertex.
+Marks: 2
+
+Question: Define the adjacency list representation of a graph.
+Answer: The adjacency list representation of a graph uses an array of lists. The array index represents a vertex, and the list at that index contains all the vertices adjacent to that vertex.
+Marks: 3
+
+Question: Explain the concept of planarity in graph theory.
+Answer: A graph is planar if it can be drawn on a plane without any edges crossing.
+Marks: 2
+
+Question: What is the significance of the Kuratowski's theorem?
+Answer: Kuratowski's theorem states that a finite graph is planar if and only if it does not contain a subgraph that is a subdivision of K5 (complete graph on five vertices) or K3,3 (complete bipartite graph on six vertices).
+Marks: 4
+
+Question: Describe Prim's algorithm.
+Answer: Prim's algorithm is used to find a minimum spanning tree for a weighted undirected graph by starting with a single vertex and adding the lowest-weight edge from the tree to a vertex not yet in the tree, until all vertices are included.
+Marks: 4
+
+Question: What is a digraph?
+Answer: A digraph, or directed graph, is a graph in which the edges have a direction associated with them, indicating what vertex the edge starts from and what vertex it ends at.
+Marks: 2
+
+Question: Define a network flow in graph theory.
+Answer: A network flow is a directed graph where each edge has a capacity and each edge receives a flow. The amount of flow on an edge cannot exceed the capacity of the edge.
+Marks: 3
+
+Question: What is the Ford-Fulkerson method?
+Answer: The Ford-Fulkerson method is an algorithm that computes the maximum flow in a flow network by finding augmenting paths from the source to the sink and increasing the flow along these paths.
+Marks: 4
+
+Question: Explain what a matching in a bipartite graph is.
+Answer: A matching in a bipartite graph is a set of edges such that no two edges share a common vertex.
+Marks: 2
+
+Question: What is the significance of Hall's Marriage Theorem?
+Answer: Hall's Marriage Theorem provides a necessary and sufficient condition for the existence of a perfect matching in a bipartite graph.
+Marks: 3
+
+Question: What is the Travelling Salesman Problem (TSP)?
+Answer: The Travelling Salesman Problem (TSP) is an NP-hard problem in combinatorial optimization where a salesman must visit a set of cities, each exactly once, and return to the original city, minimizing the total travel distance or cost.
+Marks: 3
+
+Question: Define what an independent set in a graph is.
+Answer: An independent set in a graph is a set of vertices, no two of which are adjacent.
+Marks: 2
+
+Question: Explain what vertex cover is.
+Answer: A vertex cover of a graph is a set of vertices such that each edge of the graph is incident to at least one vertex of the set.
+Marks: 2
+
+Question: Describe the concept of connectivity in a graph.
+Answer: Connectivity in a graph refers to the minimum number of elements (vertices or edges) that need to be removed to disconnect the remaining vertices from each other.
+Marks: 3
+
+Question: What is the Petersen graph?
+Answer: The Petersen graph is a specific, undirected graph with 10 vertices and 15 edges, often used as a counterexample in graph theory due to its non-planarity and other interesting properties.
+Marks: 3
+
+Question: What is the difference between strong and weak connectivity in a directed graph?
+Answer: A directed graph is strongly connected if there is a directed path between any two vertices. It is weakly connected if replacing all its directed edges with undirected edges makes the graph connected.
+Marks: 3
+
+Question: Define what an induced subgraph is.
+Answer: An induced subgraph is a subset of the vertices of a graph along with any edges whose endpoints are both in this subset.
+Marks: 2
+
+Question: Explain the concept of a dominator in graph theory.
+Answer: In a directed graph, a vertex A is said to dominate a vertex B if every path from the start vertex to B must go through A.
+Marks: 3
+
+Question: What is a cut-set in a graph?
+Answer: A cut-set is a set of edges whose removal increases the number of connected components of the graph.
+Marks: 2
+
+Question: Describe the concept of edge coloring in graph theory.
+Answer: Edge coloring is the assignment of colors to edges of a graph such that no two edges sharing the same vertex have the same color.
+Marks: 3
+
+Question: What is the Konigsberg Bridge Problem?
+Answer: The Konigsberg Bridge Problem is a historical problem in graph theory that asked whether it was possible to walk through the city of Königsberg crossing each of its seven bridges once and only once. Euler proved it was not possible, leading to the foundation of graph theory.
+Marks: 2
+
+Question: Define what an interval graph is.
+Answer: An interval graph is a graph where each vertex can be associated with an interval on the real line, and there is an edge between two vertices if and only if their intervals overlap.
+Marks: 3
+
+Question: What is the concept of a clique in graph theory?
+Answer: A clique in a graph is a subset of vertices such that every two distinct vertices are adjacent.
+Marks: 2
+
+Question: Explain what the Four Color Theorem states.
+Answer: The Four Color Theorem states that any planar graph (or equivalently, any map) can be colored with no more than four colors such that no two adjacent regions share the same color.
+Marks: 3
+
+Question: What is a hypergraph?
+Answer: A hypergraph is a generalization of a graph where edges can connect any number of vertices, not just two.
+Marks: 2
+
+Question: Define the concept of graph homomorphism.
+Answer: A graph homomorphism is a mapping between two graphs that preserves their structure, meaning adjacent vertices in the source graph are mapped to adjacent vertices in the target graph.
+Marks: 3
+
+Question: What is the girth of a graph?
+Answer: The girth of a graph is the length of its shortest cycle.
+Marks: 2
+
+Question: Explain what a de Bruijn graph is.
+Answer: A de Bruijn graph is a directed graph representing overlaps between sequences of symbols. It is used in various applications such as DNA sequencing and networking.
+Marks: 3
+
+Question: What is the PageRank algorithm and its connection to graph theory?
+Answer: The PageRank algorithm is used by Google Search to rank web pages in their search engine results. It is based on the graph theory concept of eigenvector centrality, which measures the importance of a vertex in a graph based on its connections.
+Marks: 4
+
+Question: Describe the concept of spectral graph theory.
+Answer: Spectral graph theory studies properties of a graph through the eigenvalues and eigenvectors of matrices associated with the graph, such as the adjacency matrix or the Laplacian matrix.
+Marks: 4
+

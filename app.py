@@ -1,4 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from werkzeug.security import generate_password_hash, check_password_hash
+import os
+import datetime
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -12,25 +17,18 @@ from sklearn.metrics.pairwise import cosine_similarity
 from fuzzywuzzy import fuzz
 import numpy as np
 from transformers import DistilBertTokenizer, DistilBertModel
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
-import os
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
-import os
-import datetime
 
 app = Flask(__name__)
 
 # Download necessary NLTK data
 nltk.download('punkt')
 nltk.download('stopwords')
-app = Flask(__name__)
+
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -44,6 +42,8 @@ class Evaluation(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     total_marks = db.Column(db.Float, nullable=False)
     obtained_marks = db.Column(db.Float, nullable=False)
+    student_name = db.Column(db.String(100), nullable=True)
+    student_id = db.Column(db.String(50), nullable=True)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -86,7 +86,24 @@ def dashboard():
         return redirect(url_for('login'))
     user = User.query.get(session['user_id'])
     evaluations = user.evaluations
+    # Clear any existing flash messages
+    session.pop('_flashes', None)
     return render_template('dashboard.html', user=user, evaluations=evaluations)
+
+@app.route('/delete_evaluation/<int:evaluation_id>', methods=['POST'])
+def delete_evaluation(evaluation_id):
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not logged in'}), 401
+    
+    evaluation = Evaluation.query.get_or_404(evaluation_id)
+    
+    if evaluation.user_id != session['user_id']:
+        return jsonify({'success': False, 'message': 'Permission denied'}), 403
+    
+    db.session.delete(evaluation)
+    db.session.commit()
+    
+    return jsonify({'success': True, 'message': 'Evaluation deleted successfully'})
 
 # Set up stop words
 stop_words = set(stopwords.words('english'))
@@ -236,7 +253,6 @@ def parse_file(file):
     
     return parsed_data
 
-# Modify the index route to require login
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'user_id' not in session:
@@ -244,6 +260,8 @@ def index():
     if request.method == 'POST':
         reference_file = request.files['reference']
         student_file = request.files['student']
+        student_name = request.form['student_name']
+        student_id = request.form['student_id']
         
         reference_data = parse_file(reference_file)
         student_data = parse_file(student_file)
@@ -264,7 +282,13 @@ def index():
         
         # Save evaluation to database
         user = User.query.get(session['user_id'])
-        new_evaluation = Evaluation(user=user, total_marks=total_marks, obtained_marks=round(total_obtained, 2))
+        new_evaluation = Evaluation(
+            user=user, 
+            total_marks=total_marks, 
+            obtained_marks=round(total_obtained, 2),
+            student_name=student_name,
+            student_id=student_id
+        )
         db.session.add(new_evaluation)
         db.session.commit()
 
@@ -278,7 +302,9 @@ def index():
                                total_marks=total_marks, 
                                total_obtained=round(total_obtained, 2),
                                results=results,
-                               chart_data=chart_data)
+                               chart_data=chart_data,
+                               student_name=student_name,
+                               student_id=student_id)
     
     return render_template('index.html')
 

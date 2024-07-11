@@ -4,33 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluation Results</title>
-    <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <!-- Chart.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            background-color: #f5f5f5;
-            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            font-family: 'Roboto', sans-serif;
         }
         .hero.is-primary {
-            background-color: #4a90e2;
-            color: #ffffff;
-            padding: 3rem 0;
+            background: linear-gradient(135deg, #4a90e2, #7e57c2);
         }
         .hero.is-primary .title {
             font-size: 3rem;
-        }
-        .subtitle {
-            color: #363636;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
         .card {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
             margin-bottom: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card:hover {
+            transform: translateY(-5px);
         }
         .card-content {
             padding: 1.5rem;
+        }
+        .button {
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .footer {
+            background-color: #363636;
+            color: #ffffff;
+            padding: 1rem 0;
+            text-align: center;
         }
     </style>
 </head>
@@ -38,10 +51,33 @@
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container has-text-centered">
-                <h1 class="title">Evaluation Results</h1>
+                <h1 class="title">
+                    <i class="fas fa-chart-bar mr-2"></i>Evaluation Results
+                </h1>
             </div>
         </div>
     </section>
+
+    <div class="card">
+        <div class="card-content">
+            <p class="subtitle">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <span>Student Name: <strong>{{ student_name }}</strong></span>
+                </span>
+            </p>
+            <p class="subtitle">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-id-card"></i>
+                    </span>
+                    <span>Student ID: <strong>{{ student_id }}</strong></span>
+                </span>
+            </p>
+        </div>
+    </div>
 
     <section class="section">
         <div class="container">
@@ -49,18 +85,48 @@
                 <div class="column is-half">
                     <div class="card">
                         <div class="card-content">
-                            <p class="subtitle">Total marks in the test: <strong>{{ total_marks }}</strong></p>
-                            <p class="subtitle">Total marks obtained: <strong>{{ total_obtained }}</strong></p>
+                            <p class="subtitle">
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fas fa-calculator"></i>
+                                    </span>
+                                    <span>Total marks in the test: <strong>{{ total_marks }}</strong></span>
+                                </span>
+                            </p>
+                            <p class="subtitle">
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                    <span>Total marks obtained: <strong>{{ total_obtained }}</strong></span>
+                                </span>
+                            </p>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-content">
-                            <h2 class="subtitle">Individual Question Scores:</h2>
-                            <ul>
-                                {% for result in results %}
-                                <li>{{ result.question }}: <strong>{{ result.score }} / {{ result.max_score }}</strong></li>
-                                {% endfor %}
-                            </ul>
+                            <h2 class="subtitle">
+                                <span class="icon-text">
+                                    <span class="icon">
+                                        <i class="fas fa-list-ol"></i>
+                                    </span>
+                                    <span>Individual Question Scores:</span>
+                                </span>
+                            </h2>
+                            <div class="content">
+                                <ul class="is-unstyled">
+                                    {% for result in results %}
+                                    <li class="mb-2">
+                                        <span class="icon-text">
+                                            <span class="icon">
+                                                <i class="fas fa-check-circle"></i>
+                                            </span>
+                                            <span>{{ result.question }}: <strong>{{ result.score }} / {{ result.max_score }}</strong></span>
+                                        </span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="card">
@@ -68,6 +134,14 @@
                             <h2 class="subtitle">Marks Distribution:</h2>
                             <canvas id="marksChart"></canvas>
                         </div>
+                    </div>
+                    <div class="buttons is-centered mt-6">
+                        <a href="{{ url_for('dashboard') }}" class="button is-primary is-medium">
+                            <span class="icon">
+                                <i class="fas fa-arrow-left"></i>
+                            </span>
+                            <span>Back to Dashboard</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -81,6 +155,7 @@
             </p>
         </div>
     </footer>
+
     <script id="chartData" type="application/json">{{ chart_data | tojson | safe }}</script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -113,7 +188,15 @@
                             options: {
                                 scales: {
                                     y: {
-                                        beginAtZero: true
+                                        beginAtZero: true,
+                                        grid: {
+                                            color: 'rgba(0, 0, 0, 0.1)',
+                                        }
+                                    },
+                                    x: {
+                                        grid: {
+                                            display: false
+                                        }
                                     }
                                 },
                                 responsive: true,
@@ -123,7 +206,11 @@
                                     },
                                     title: {
                                         display: true,
-                                        text: 'Marks Distribution'
+                                        text: 'Marks Distribution',
+                                        font: {
+                                            size: 18,
+                                            weight: 'bold'
+                                        }
                                     }
                                 }
                             }
@@ -138,6 +225,6 @@
                 console.error('Chart data element not found');
             }
         });
-        </script>
+    </script>
 </body>
 </html>

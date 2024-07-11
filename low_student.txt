@@ -1,0 +1,49 @@
+Question: Define a Deterministic Finite Automaton (DFA).
+Answer: A DFA is like a machine that reads stuff and decides if it likes it or not. It has a few states and moves between them based on what it reads. For every state and symbol, there's only one place it can go next.
+
+Question: What is the difference between a Mealy machine and a Moore machine?
+Answer: Mealy and Moore machines are different in how they make outputs. A Mealy machine makes output based on the state and the input, while a Moore machine makes output just based on the state.
+
+Question: Explain the concept of regular expressions and give an example.
+Answer: Regular expressions are like patterns to find stuff in strings. They use special symbols. For example, a* matches any amount of 'a', even zero 'a'.
+
+Question: Define the pumping lemma for regular languages and explain its use.
+Answer: The pumping lemma is a rule that all regular languages follow. It says if a string is long enough, you can repeat a part of it and still be in the language. It's used to show some languages aren't regular.
+
+Question: What is a Pushdown Automaton (PDA)? How does it differ from a finite automaton?
+Answer: A PDA is a machine with a stack. Unlike regular machines, PDAs have a stack for more memory, so they can handle context-free languages. Regular machines only handle regular languages.
+
+Question: Describe the Chomsky hierarchy of formal languages and grammars.
+Answer: The Chomsky hierarchy has four types:
+1. Type 0: Any grammar
+2. Type 1: Context-sensitive
+3. Type 2: Context-free
+4. Type 3: Regular
+Each type is more limited than the one before it.
+
+Question: Define a Turing Machine and explain its components.
+Answer: A Turing Machine is a model with an endless tape, a head that reads and writes, and states with rules. It moves left or right, reads and writes symbols, and changes states based on what it reads and its current state.
+
+Question: Explain the concept of non-determinism in finite automata.
+Answer: Non-determinism lets a machine have multiple choices for transitions for the same symbol. It can be in many states at once and accepts if any path leads to an accepting state.
+
+Question: What is the Church-Turing thesis?
+Answer: The Church-Turing thesis says anything that can be calculated by an algorithm can be done by a Turing Machine. It means Turing Machines can do any computation that can be done.
+
+Question: Define and explain the concept of a context-free grammar (CFG).
+Answer: A CFG has rules to make strings. It has variables, terminals, a start symbol, and rules to replace variables with strings of variables and terminals, no matter where the variable is.
+
+Question: Explain the halting problem and its significance in computability theory.
+Answer: The halting problem asks if we can tell if any program will stop or run forever. Turing showed this can't be done for all programs, which is important because it shows some problems can't be solved by algorithms.
+
+Question: What is a regular grammar? How does it relate to finite automata?
+Answer: A regular grammar has rules in specific forms, like A → a or A → aB. Regular grammars make regular languages, which are the same as the languages finite automata can recognize.
+
+Question: Define the concept of closure properties for regular languages.
+Answer: Closure properties mean regular languages stay regular under certain operations. For example, combining two regular languages by union, intersection, or concatenation still gives a regular language. This helps in working with regular languages.
+
+Question: Explain the concept of a Deterministic Pushdown Automaton (DPDA) and its limitations.
+Answer: A DPDA is a pushdown automaton with only one move possible for each input and stack symbol. DPDAs can do more than DFAs but less than non-deterministic PDAs. They can't handle all context-free languages.
+
+Question: What is the time complexity of converting an NFA to a DFA?
+Answer: Converting an NFA to a DFA can take a lot of time, and the number of states can grow exponentially. If the NFA has n states, the DFA can have up to 2^n states.

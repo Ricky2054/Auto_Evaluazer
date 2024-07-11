@@ -1,0 +1,61 @@
+Question: Define a Deterministic Finite Automaton (DFA).
+Answer: A Deterministic Finite Automaton (DFA) is a 5-tuple (Q, Σ, δ, q0, F) where Q is a finite set of states, Σ is a finite set of input symbols, δ is the transition function, q0 is the initial state, and F is the set of final states. In a DFA, for each state and input symbol, there is exactly one next state.
+
+Question: What is the difference between a Mealy machine and a Moore machine?
+Answer: The main difference between Mealy and Moore machines is in their output generation. In a Mealy machine, the output depends on both the current state and the input symbol, while in a Moore machine, the output depends only on the current state. Mealy machines typically require fewer states than Moore machines for the same language.
+
+Question: Explain the concept of regular expressions and give an example.
+Answer: Regular expressions are a formal language for specifying string patterns. They use a combination of literal characters and special symbols to define these patterns. Basic elements include concatenation, alternation (|), and Kleene star (*). For example, the regular expression a(b|c)*d matches strings that start with 'a', followed by any number of 'b's or 'c's, and end with 'd', such as "ad", "abcd", or "abbbccbd".
+
+Question: Define the pumping lemma for regular languages and explain its use.
+Answer: The pumping lemma for regular languages states that for any regular language L, there exists a pumping length p > 0 such that any string s in L with |s| ≥ p can be divided into three parts, s = xyz, satisfying: |y| > 0, |xy| ≤ p, and for all i ≥ 0, xy^iz is in L. This lemma is primarily used to prove that certain languages are not regular by contradiction.
+
+Question: What is a Pushdown Automaton (PDA)? How does it differ from a finite automaton?
+Answer: A Pushdown Automaton (PDA) is a computational model that extends finite automata with an infinite stack memory. Formally, it's a 7-tuple (Q, Σ, Γ, δ, q0, Z0, F), where Q, Σ, q0, and F are similar to a DFA, Γ is the stack alphabet, Z0 is the initial stack symbol, and δ is the transition function that considers both input and top of the stack. PDAs can recognize context-free languages, whereas finite automata are limited to regular languages.
+
+
+Question: Describe the Chomsky hierarchy of formal languages and grammars.
+Answer: The Chomsky hierarchy classifies formal grammars into four types:
+1. Type 0 (Unrestricted): Recognize recursively enumerable languages, equivalent to Turing machines.
+2. Type 1 (Context-sensitive): Recognize context-sensitive languages, equivalent to linear bounded automata.
+3. Type 2 (Context-free): Recognize context-free languages, equivalent to pushdown automata.
+4. Type 3 (Regular): Recognize regular languages, equivalent to finite automata.
+Each type is a proper subset of the types above it, with increasing restrictions on production rules.
+
+Question: Define a Turing Machine and explain its components.
+Answer: A Turing Machine is a mathematical model of computation consisting of:
+1. An infinite tape divided into cells, each containing a symbol from a finite alphabet.
+2. A head that can read and write symbols on the tape and move left or right.
+3. A finite set of states, including a start state and halt states.
+4. A transition function that, given the current state and the symbol under the head, specifies the next state, the symbol to write, and the direction to move the head.
+Turing Machines can simulate any algorithm and are considered the most powerful computational model.
+
+Question: Explain the concept of non-determinism in finite automata.
+Answer: Non-determinism in finite automata allows multiple possible transitions for a given input symbol and state. In a Non-deterministic Finite Automaton (NFA), the transition function maps a state and input symbol to a set of possible next states, rather than a single state as in a DFA. This allows for more compact representations of certain languages. Every NFA can be converted to an equivalent DFA, but the resulting DFA may have exponentially more states.
+
+Question: What is the Church-Turing thesis?
+Answer: The Church-Turing thesis is a fundamental principle in computer science that states that any function which is effectively computable can be computed by a Turing Machine. It asserts that Turing Machines capture the intuitive notion of algorithmic computation. While not mathematically provable, it is widely accepted and forms the basis for the theory of computability.
+
+Question: Define and explain the concept of a context-free grammar (CFG).
+Answer: A context-free grammar (CFG) is a formal grammar consisting of a set of production rules that describe all possible strings in a given formal language. It's defined by a 4-tuple (V, Σ, R, S), where V is a set of non-terminal symbols, Σ is a set of terminal symbols, R is a set of production rules of the form A → α where A is a non-terminal and α is a string of terminals and non-terminals, and S is the start symbol. CFGs are used to describe the syntax of programming languages and are recognized by pushdown automata.
+
+Question: Explain the halting problem and its significance in computability theory.
+Answer: The halting problem asks whether it's possible to determine, for any arbitrary program and input, whether the program will eventually halt or run forever. Alan Turing proved that a general algorithm to solve the halting problem for all possible program-input pairs cannot exist. This proof is done by contradiction, showing that if such an algorithm existed, it would lead to a logical paradox. The halting problem's undecidability is significant as it demonstrates fundamental limitations of computation and proves the existence of problems that cannot be solved algorithmically.
+
+Question: What is a regular grammar? How does it relate to finite automata?
+Answer: A regular grammar is a formal grammar where all production rules are of one of these forms: A → a, A → aB, A → ε (where A and B are non-terminal symbols, a is a terminal symbol, and ε is the empty string). Regular grammars generate exactly the set of regular languages, which are the same languages recognized by finite automata. There's a direct correspondence between regular grammars and finite automata: for any regular grammar, an equivalent finite automaton can be constructed, and vice versa.
+
+Question: Define the concept of closure properties for regular languages.
+Answer: Closure properties for regular languages refer to the fact that regular languages are closed under certain operations. This means that when these operations are applied to regular languages, the result is always another regular language. Some key closure properties include:
+1. Union
+2. Intersection
+3. Concatenation
+4. Kleene star
+5. Complement
+These properties are important for constructing complex regular languages from simpler ones and for proving certain languages are regular.
+
+Question: Explain the concept of a Deterministic Pushdown Automaton (DPDA) and its limitations.
+Answer: A Deterministic Pushdown Automaton (DPDA) is a special case of a Pushdown Automaton where for each configuration (state, input symbol, top of stack symbol), there is at most one possible move. DPDAs are more powerful than DFAs but less powerful than general PDAs. They can recognize some, but not all, context-free languages. A key limitation of DPDAs is that they cannot recognize all context-free languages; for example, the language of palindromes over {a,b} is context-free but not deterministic context-free.
+
+Question: What is the time complexity of converting an NFA to a DFA?
+Answer: The time complexity of converting an NFA with n states to an equivalent DFA using the subset construction method is O(2^n). This exponential complexity arises because each state in the DFA corresponds to a subset of states of the NFA, and there can be up to 2^n such subsets. In practice, the actual number of reachable states in the resulting DFA is often less than 2^n, but the worst-case complexity remains exponential.

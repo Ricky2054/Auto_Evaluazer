@@ -1,0 +1,144 @@
+Question: What is a graph in graph theory?
+Answer: A graph is a collection of nodes (or vertices) and edges (or arcs) that connect pairs of nodes. The edges may be directed or undirected.
+
+Question: Define a complete graph.
+Answer: A complete graph is a graph in which there is an edge between every pair of vertices.
+
+Question: What is the degree of a vertex in a graph?
+Answer: The degree of a vertex is the number of edges connected to it. For directed graphs, there are in-degrees and out-degrees.
+
+Question: What is a cycle in a graph?
+Answer: A cycle in a graph is a path that starts and ends at the same vertex without repeating other vertices.
+
+Question: Explain the difference between a path and a trail in a graph.
+Answer: A path has no repeated vertices, while a trail has no repeated edges.
+
+Question: What is an Eulerian circuit?
+Answer: An Eulerian circuit is a path that uses every edge exactly once and returns to the starting point.
+
+Question: State Euler's formula for planar graphs.
+Answer: Euler's formula is V - E + F = 2, where V is vertices, E is edges, and F is faces.
+
+Question: What is a bipartite graph?
+Answer: A bipartite graph can be divided into two sets where no vertices within the same set are adjacent.
+
+Question: Define a tree in graph theory.
+Answer: A tree is a connected graph with no cycles, having N vertices and N-1 edges.
+
+Question: What is a spanning tree of a graph?
+Answer: A spanning tree includes all the vertices of the graph and is a tree.
+
+Question: Explain what a minimum spanning tree (MST) is.
+Answer: An MST is a spanning tree with the least total edge weight among all spanning trees of the graph.
+
+Question: Describe Dijkstra's algorithm.
+Answer: Dijkstra's algorithm finds the shortest path from a source vertex to all other vertices in a graph with non-negative edge weights.
+
+Question: What is the difference between a directed and an undirected graph?
+Answer: A directed graph has edges with direction, while undirected edges have no direction.
+
+Question: What is the adjacency matrix of a graph?
+Answer: An adjacency matrix is a square matrix showing connections between vertices, with 1s and 0s.
+
+Question: Define a cut vertex in a graph.
+Answer: A cut vertex is one whose removal increases the number of connected components.
+
+Question: Explain the concept of graph isomorphism.
+Answer: Graph isomorphism is when two graphs can be transformed into each other by renaming vertices.
+
+Question: What is the chromatic number of a graph?
+Answer: The chromatic number is the minimum number of colors needed to color vertices so no two adjacent ones share the same color.
+
+Question: Describe what a weighted graph is.
+Answer: A weighted graph has edges with associated numerical values, like costs or lengths.
+
+Question: What is a Hamiltonian cycle?
+Answer: A Hamiltonian cycle visits every vertex exactly once and returns to the starting vertex.
+
+Question: Define the adjacency list representation of a graph.
+Answer: An adjacency list uses an array of lists, where each list contains vertices adjacent to a vertex.
+
+Question: Explain the concept of planarity in graph theory.
+Answer: A graph is planar if it can be drawn on a plane without edges crossing.
+
+Question: What is the significance of the Kuratowski's theorem?
+Answer: Kuratowski's theorem says a graph is planar if it doesn’t contain a subdivision of K5 or K3,3.
+
+Question: Describe Prim's algorithm.
+Answer: Prim's algorithm finds an MST by starting with one vertex and adding the smallest edge that connects a new vertex.
+
+Question: What is a digraph?
+Answer: A digraph is a directed graph, where edges have directions.
+
+Question: Define a network flow in graph theory.
+Answer: A network flow is a directed graph with capacities on edges and a flow that doesn’t exceed these capacities.
+
+Question: What is the Ford-Fulkerson method?
+Answer: The Ford-Fulkerson method finds the maximum flow in a network by augmenting paths from source to sink.
+
+Question: Explain what a matching in a bipartite graph is.
+Answer: A matching is a set of edges where no two share a common vertex.
+
+Question: What is the significance of Hall's Marriage Theorem?
+Answer: Hall's Marriage Theorem gives a condition for a perfect matching in a bipartite graph.
+
+Question: What is the Travelling Salesman Problem (TSP)?
+Answer: The TSP asks for the shortest possible route visiting each city once and returning to the start.
+
+Question: Define what an independent set in a graph is.
+Answer: An independent set has no two adjacent vertices.
+
+Question: Explain what vertex cover is.
+Answer: A vertex cover is a set of vertices touching every edge in the graph.
+
+Question: Describe the concept of connectivity in a graph.
+Answer: Connectivity is the minimum elements needed to disconnect the graph by removal.
+
+Question: What is the Petersen graph?
+Answer: The Petersen graph is a special graph with 10 vertices and 15 edges, known for its properties.
+
+Question: What is the difference between strong and weak connectivity in a directed graph?
+Answer: Strongly connected means a path exists between any two vertices; weakly connected means this after replacing directed edges with undirected ones.
+
+Question: Define what an induced subgraph is.
+Answer: An induced subgraph includes a subset of vertices and all edges between them.
+
+Question: Explain the concept of a dominator in graph theory.
+Answer: In a directed graph, a dominator is a vertex A where all paths to another vertex B must go through A.
+
+Question: What is a cut-set in a graph?
+Answer: A cut-set is a set of edges whose removal increases the number of connected components.
+
+Question: Describe the concept of edge coloring in graph theory.
+Answer: Edge coloring assigns colors to edges so no two edges sharing a vertex have the same color.
+
+Question: What is the Konigsberg Bridge Problem?
+Answer: The Konigsberg Bridge Problem asked if one could walk through the city crossing each bridge once, which Euler proved impossible.
+
+Question: Define what an interval graph is.
+Answer: An interval graph has vertices as intervals on a line and edges if intervals overlap.
+
+Question: What is the concept of a clique in graph theory?
+Answer: A clique is a subset of vertices where every two distinct vertices are adjacent.
+
+Question: Explain what the Four Color Theorem states.
+Answer: The Four Color Theorem states any planar graph can be colored with at most four colors so no two adjacent regions share a color.
+
+Question: What is a hypergraph?
+Answer: A hypergraph generalizes graphs with edges connecting any number of vertices.
+
+Question: Define the concept of graph homomorphism.
+Answer: A graph homomorphism maps vertices of one graph to another, preserving adjacency.
+
+Question: What is the girth of a graph?
+Answer: The girth is the length of the shortest cycle in the graph.
+
+Question: Explain what a de Bruijn graph is.
+Answer: A de Bruijn graph represents overlaps between sequences and is used in DNA sequencing and networking.
+
+Question: What is the PageRank algorithm and its connection to graph theory?
+Answer: PageRank ranks web pages using eigenvector centrality, measuring importance by connections.
+
+Question: Describe the concept of spectral graph theory.
+Answer: Spectral graph theory uses eigenvalues and eigenvectors of graph-related matrices to study properties.
+

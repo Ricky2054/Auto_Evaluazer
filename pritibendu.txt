@@ -1,0 +1,44 @@
+Question: Define a Deterministic Finite Automaton (DFA).
+Answer: Define a Deterministic Finite Automaton (DFA).
+
+Question: What is the difference between a Mealy machine and a Moore machine?
+Answer: What is the difference between a Mealy machine and a Moore machine?
+
+Question: Explain the concept of regular expressions and give an example.
+Answer: Explain the concept of regular expressions and give an example.
+
+Question: Define the pumping lemma for regular languages and explain its use.
+Answer: Define the pumping lemma for regular languages and explain its use.
+
+Question: What is a Pushdown Automaton (PDA)? How does it differ from a finite automaton?
+Answer: What is a Pushdown Automaton (PDA)? How does it differ from a finite automaton?
+
+Question: Describe the Chomsky hierarchy of formal languages and grammars.
+Answer: Describe the Chomsky hierarchy of formal languages and grammars.
+
+Question: Define a Turing Machine and explain its components.
+Answer: Define a Turing Machine and explain its components.
+
+Question: Explain the concept of non-determinism in finite automata.
+Answer: Explain the concept of non-determinism in finite automata.
+
+Question: What is the Church-Turing thesis?
+Answer: What is the Church-Turing thesis?
+
+Question: Define and explain the concept of a context-free grammar (CFG).
+Answer: Define and explain the concept of a context-free grammar (CFG).
+
+Question: Explain the halting problem and its significance in computability theory.
+Answer: Explain the halting problem and its significance in computability theory.
+
+Question: What is a regular grammar? How does it relate to finite automata?
+Answer: What is a regular grammar? How does it relate to finite automata?
+
+Question: Define the concept of closure properties for regular languages.
+Answer: Define the concept of closure properties for regular languages.
+
+Question: Explain the concept of a Deterministic Pushdown Automaton (DPDA) and its limitations.
+Answer: Explain the concept of a Deterministic Pushdown Automaton (DPDA) and its limitations.
+
+Question: What is the time complexity of converting an NFA to a DFA?
+Answer: What is the time complexity of converting an NFA to a DFA?

@@ -3,41 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - Answer Evaluation System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .hero {
+            background: linear-gradient(135deg, #4a90e2, #7e57c2);
+        }
+        .hero .title {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .login-form {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        .input {
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .input:focus {
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        .button {
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <section class="hero is-primary">
+    <section class="hero is-primary is-bold">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">Login</h1>
+                <h1 class="title">
+                    <i class="fas fa-user-circle mr-2"></i>Login
+                </h1>
+                <h2 class="subtitle">
+                    Access your Answer Evaluation Dashboard
+                </h2>
             </div>
         </div>
     </section>
     <section class="section">
         <div class="container">
             <div class="columns is-centered">
-                <div class="column is-half">
-                    <form method="POST">
+                <div class="column is-5">
+                    <form method="POST" class="login-form">
                         <div class="field">
                             <label class="label">Username</label>
-                            <div class="control">
+                            <div class="control has-icons-left">
                                 <input class="input" type="text" name="username" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="field">
                             <label class="label">Password</label>
-                            <div class="control">
+                            <div class="control has-icons-left">
                                 <input class="input" type="password" name="password" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="field">
                             <div class="control">
-                                <button class="button is-primary" type="submit">Login</button>
+                                <button class="button is-primary is-fullwidth" type="submit">
+                                    <span class="icon">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </span>
+                                    <span>Login</span>
+                                </button>
                             </div>
                         </div>
                     </form>
-                    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+                    <p class="has-text-centered mt-4">
+                        Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+                    </p>
                 </div>
             </div>
         </div>

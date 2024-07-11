@@ -3,42 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard - Answer Evaluation System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .hero {
+            background: linear-gradient(135deg, #4a90e2, #7e57c2);
+        }
+        .hero .title {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .table {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .table th {
+            background-color: #f1f3f5;
+        }
+        .button {
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <section class="hero is-primary">
+    <section class="hero is-primary is-bold">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">Welcome, {{ user.username }}!</h1>
+                <h1 class="title">
+                    <i class="fas fa-chart-line mr-2"></i>Welcome, {{ user.username }}!
+                </h1>
+                <h2 class="subtitle">
+                    Your Answer Evaluation Dashboard
+                </h2>
             </div>
         </div>
     </section>
     <section class="section">
         <div class="container">
-            <h2 class="title is-4">Your Evaluations</h2>
-            <p>Total evaluations: {{ evaluations|length }}</p>
-            <table class="table is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Total Marks</th>
-                        <th>Obtained Marks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for evaluation in evaluations %}
-                    <tr>
-                        <td>{{ evaluation.date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                        <td>{{ evaluation.total_marks }}</td>
-                        <td>{{ evaluation.obtained_marks }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <a href="{{ url_for('index') }}" class="button is-primary">New Evaluation</a>
-            <a href="{{ url_for('logout') }}" class="button is-light">Logout</a>
+            <div class="columns">
+                <div class="column is-3">
+                    <div class="card">
+                        <div class="card-content">
+                            <p class="title is-4">
+                                <i class="fas fa-clipboard-check mr-2"></i>{{ evaluations|length }}
+                            </p>
+                            <p class="subtitle is-6">Total Evaluations</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-9">
+                    <h2 class="title is-4 mb-4">Your Evaluation History</h2>
+                    <div class="table-container">
+                        <table class="table is-fullwidth is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Student Name</th>
+                                    <th>Student ID</th>
+                                    <th>Total Marks</th>
+                                    <th>Obtained Marks</th>
+                                    <th>Performance</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for evaluation in evaluations %}
+                                <tr>
+                                    <td>{{ evaluation.date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                    <td>{{ evaluation.student_name }}</td>
+                                    <td>{{ evaluation.student_id }}</td>
+                                    <td>{{ evaluation.total_marks }}</td>
+                                    <td>{{ evaluation.obtained_marks }}</td>
+                                    <td>
+                                        {% set percentage = (evaluation.obtained_marks / evaluation.total_marks * 100) | round(2) %}
+                                        <progress class="progress is-primary" value="{{ percentage }}" max="100">{{ percentage }}%</progress>
+                                    </td>
+                                    <td>
+                                        <form action="{{ url_for('delete_evaluation', evaluation_id=evaluation.id) }}" method="POST">
+                                            <button type="submit" class="button is-danger is-small">
+                                                <span class="icon is-small">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons is-centered mt-6">
+                <a href="{{ url_for('index') }}" class="button is-primary is-medium">
+                    <span class="icon">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    <span>New Evaluation</span>
+                </a>
+                <a href="{{ url_for('logout') }}" class="button is-light is-medium">
+                    <span class="icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </span>
+                    <span>Logout</span>
+                </a>
+            </div>
         </div>
     </section>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const deleteForms = document.querySelectorAll('form[action^="/delete_evaluation/"]');
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to delete this evaluation?')) {
+                    fetch(this.action, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Remove the table row
+                            this.closest('tr').remove();
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('An error occurred while deleting the evaluation.');
+                    });
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>
