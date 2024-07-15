@@ -6,7 +6,6 @@ import os
 import datetime
 import torch
 import torch.nn as nn
-import torch.optim as optim
 import re
 import nltk
 from nltk.corpus import stopwords
@@ -17,10 +16,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 from fuzzywuzzy import fuzz
 import numpy as np
 from transformers import DistilBertTokenizer, DistilBertModel
+import json
+import pickle
 
 app = Flask(__name__)
 
-# Download necessary NLTK data
 nltk.download('punkt')
 nltk.download('stopwords')
 
@@ -86,7 +86,6 @@ def dashboard():
         return redirect(url_for('login'))
     user = User.query.get(session['user_id'])
     evaluations = user.evaluations
-    # Clear any existing flash messages
     session.pop('_flashes', None)
     return render_template('dashboard.html', user=user, evaluations=evaluations)
 
@@ -105,15 +104,26 @@ def delete_evaluation(evaluation_id):
     
     return jsonify({'success': True, 'message': 'Evaluation deleted successfully'})
 
-# Set up stop words
 stop_words = set(stopwords.words('english'))
-
-# Initialize TF-IDF vectorizer
 tfidf_vectorizer = TfidfVectorizer(stop_words='english')
 
-# Load DistilBERT model and tokenizer
-distilbert_tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
-distilbert_model = DistilBertModel.from_pretrained('distilbert-base-uncased')
+def load_models(lstm_model, lstm_path, distilbert_path):
+    with open(lstm_path, 'rb') as f:
+        lstm_model.load_state_dict(pickle.load(f))
+    lstm_model.eval()
+    with open(distilbert_path, 'rb') as f:
+        distilbert_model = DistilBertModel.from_pretrained('distilbert-base-uncased')
+        distilbert_model.load_state_dict(pickle.load(f))
+    distilbert_model.eval()
+    return lstm_model, distilbert_model
+
+def load_word_to_idx(filepath):
+    with open(filepath, 'r') as f:
+        return json.load(f)
+
+def load_distilbert_tokenizer(filepath):
+    with open(filepath, 'rb') as f:
+        return pickle.load(f)
 
 def preprocess_text(text):
     text = text.lower()
@@ -122,7 +132,6 @@ def preprocess_text(text):
     tokens = [word for word in tokens if word not in stop_words]
     return ' '.join(tokens)
 
-# Define LSTM model
 class LSTMModel(nn.Module):
     def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim):
         super(LSTMModel, self).__init__()
@@ -145,38 +154,6 @@ def tokenize_and_pad(text, word_to_idx, max_length=512):
     else:
         sequence = sequence[:max_length]
     return torch.tensor(sequence, dtype=torch.long)
-
-# Prepare vocabulary
-all_texts = [line.strip() for line in open('dataset.txt')] + [line.strip() for line in open('student_answer_low.txt')]
-all_tokens = [token for text in all_texts for token in preprocess_text(text).split()]
-vocab = set(all_tokens)
-word_to_idx = {word: idx for idx, word in enumerate(vocab, 1)}
-word_to_idx['<PAD>'] = 0
-word_to_idx['<UNK>'] = len(word_to_idx)
-
-# Prepare LSTM model
-EMBEDDING_DIM = 100
-HIDDEN_DIM = 128
-vocab_size = len(word_to_idx)
-lstm_model = LSTMModel(vocab_size, EMBEDDING_DIM, HIDDEN_DIM, HIDDEN_DIM)
-
-def train_model(model, texts, word_to_idx, epochs=5, lr=0.001):
-    criterion = nn.MSELoss()
-    optimizer = optim.Adam(model.parameters(), lr=lr)
-    model.train()
-    for epoch in range(epochs):
-        for text in texts:
-            sequence = tokenize_and_pad(text, word_to_idx).unsqueeze(0)
-            optimizer.zero_grad()
-            outputs = model(sequence)
-            loss = criterion(outputs, outputs)  # Dummy target for autoencoding
-            loss.backward()
-            optimizer.step()
-        print(f'Epoch {epoch + 1}/{epochs}, Loss: {loss.item()}')
-
-# Train LSTM model
-train_texts = [line.strip() for line in open('dataset.txt')] + [line.strip() for line in open('student_answer_low.txt')]
-train_model(lstm_model, train_texts, word_to_idx)
 
 def get_lstm_embedding(text, model):
     model.eval()
@@ -253,6 +230,15 @@ def parse_file(file):
     
     return parsed_data
 
+# Load pre-trained models and data
+word_to_idx = load_word_to_idx('word_to_idx.json')
+EMBEDDING_DIM = 100
+HIDDEN_DIM = 128
+vocab_size = len(word_to_idx)
+lstm_model = LSTMModel(vocab_size, EMBEDDING_DIM, HIDDEN_DIM, HIDDEN_DIM)
+lstm_model, distilbert_model = load_models(lstm_model, 'lstm_model.pkl', 'distilbert_model.pkl')
+distilbert_tokenizer = load_distilbert_tokenizer('distilbert_tokenizer.pkl')
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if 'user_id' not in session:
@@ -280,7 +266,6 @@ def index():
                 'max_score': ref['marks']
             })
         
-        # Save evaluation to database
         user = User.query.get(session['user_id'])
         new_evaluation = Evaluation(
             user=user, 
