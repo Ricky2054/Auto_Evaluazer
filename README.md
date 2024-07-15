@@ -26,7 +26,10 @@ Step 2:
 Make sure that your main python file is named as "app.py"
 
 Step 3:
+run the "save_model.ipynb" and make sure that you have selected your 'myenv' as kernel and install the necessary package i.e, ipykernel 
+
 To run the application write the following command in the terminal
+
 "python app.py"
 
 then go to port "http://127.0.0.1:5000" for running the application in the localserver
