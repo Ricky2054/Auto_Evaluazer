@@ -11,7 +11,7 @@ Automatic Long Answer Evaluation Model- It allows users to input a question and 
 
 
 
-## Instructions for using the model:
+## Instructions for using the app:
 
 Step 1:
 Create virtual environment,activate it and install requirements, by executing the following commands in the terminal:
@@ -32,7 +32,7 @@ Step 2:
 Make sure that your main python file is named as "app.py"
 
 Step 3:
-run the "save_model.ipynb" and make sure that you have selected your 'myenv' as kernel and install the necessary package i.e, ipykernel 
+Run the "save_model.ipynb" and make sure that you have selected your 'myenv' as kernel and install the necessary package i.e, ipykernel 
 
 To run the application write the following command in the terminal
 
