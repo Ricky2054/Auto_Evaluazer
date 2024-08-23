@@ -49,5 +49,3 @@ then go to port "http://127.0.0.1:5000" for running the application in the local
 ## Authors
 - [@Ricky](https://github.com/Ricky2054)
 - [@Sorbojit](https://github.com/33sorbojitmondal)
-- [@Ritika](https://github.com/Ritika3004)
-- [@Sagarika](https://github.com/Sagarika-02)
