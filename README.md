@@ -12,7 +12,7 @@ Automatic Long Answer Evaluation Model- It allows users to input a question and 
 
 
 ## Instructions for using the app:
-
+Make sure that you have python version ``` 3.11.5 ```
 Step 1:
 Create virtual environment,activate it and install requirements, by executing the following commands in the terminal:
 
