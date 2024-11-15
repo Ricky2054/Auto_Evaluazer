@@ -43,7 +43,7 @@ python app.py
 
 then go to port "http://127.0.0.1:5000" for running the application in the localserver
 
-*In addition to this project we are working on a viva checker version of the system that will automatically conduct and evaluate viva  Q&A to come soon as it is in testing phase....
+*In addition to this project we are have created a viva checker version of the system that  automatically conducts and evaluates viva  Q&A also we are working on a plagarism checker and a code checker addon to our system and that is to come soon as it is in testing phase....
 
 
 
